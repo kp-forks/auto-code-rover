@@ -1,26 +1,51 @@
 # AutoCodeRover: Autonomous Program Improvement
 
-![overall-workflow](https://github.com/nus-apr/auto-code-rover/assets/48704330/0b8da9ad-588c-4f7d-9c99-53f33d723d35)
+<br>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2404.05427"><strong>ArXiv Paper</strong></a>
+  <img src="https://github.com/nus-apr/auto-code-rover/assets/16000056/8d249b02-1db4-4f58-a5a4-bdb694d65ab1" alt="autocoderover_logo" width="200px" height="200px">
 </p>
 
 
-## 📣 Updates
+<p align="center">
+  <a href="https://arxiv.org/abs/2404.05427"><strong>ArXiv Paper</strong></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://autocoderover.dev/"><strong>Website</strong></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://discord.gg/ScXsdE49JY"><strong>Discord server</strong></a>
+</p>
 
+<br>
+
+![overall-workflow](https://github.com/nus-apr/auto-code-rover/assets/48704330/0b8da9ad-588c-4f7d-9c99-53f33d723d35)
+
+<br>
+
+
+> [!NOTE]
+> This is a public version of the AutoCodeRover project. Check the latest results on our [website](https://autocoderover.dev/).
+
+## 📣 Updates
+- [June 20, 2024] AutoCodeRover now achieves **30.67%** efficacy (pass@1) on SWE-bench-lite!
+- [June 08, 2024] Added support for Gemini, Groq (thank you [KasaiHarcore](https://github.com/KasaiHarcore) for the contribution!) and Anthropic models through AWS Bedrock (thank you [JGalego](https://github.com/JGalego) for the contribution!).
 - [April 29, 2024] Added support for Claude and Llama models. Find the list of supported models [here](#using-a-different-model)! Support for more models coming soon.
 - [April 19, 2024] AutoCodeRover now supports running on [GitHub issues](#github-issue-mode-set-up-and-run-on-new-github-issues) and [local issues](#local-issue-mode-set-up-and-run-on-local-repositories-and-local-issues)! Feel free to try it out and we welcome your feedback!
+
+## [Discord](https://discord.gg/ScXsdE49JY) - server for general discussion, questions, and feedback.
 
 ## 👋 Overview
 
 AutoCodeRover is a fully automated approach for resolving GitHub issues (bug fixing and feature addition) where LLMs are combined with analysis and debugging capabilities to prioritize patch locations ultimately leading to a patch.
 
-AutoCodeRover resolves ~**16%** of issues of [SWE-bench](https://www.swebench.com) (total 2294 GitHub issues) and ~**22%** issues of [SWE-bench lite](https://www.swebench.com/lite.html) (total 300 GitHub issues), improving over the current state-of-the-art efficacy of AI software engineers.
+[Update on June 20, 2024] AutoCodeRover now resolves **30.67%** of issues (pass@1) in SWE-bench lite! AutoCodeRover achieved this efficacy while being economical - each task costs **less than $0.7** and is completed within **7 mins**!
 
 <p align="center">
-<img src=https://github.com/nus-apr/auto-code-rover/assets/48704330/e10c3270-442c-4673-8656-735c892dfb66 width=500/>
+<img src=https://github.com/nus-apr/auto-code-rover/assets/16000056/78d184b2-f15c-4408-9eac-cfd3a11a503a width=500/>
+<img src=https://github.com/nus-apr/auto-code-rover/assets/16000056/83253ae9-8789-474e-942d-708495b5b310 width=500/>
 </p>
+
+[April 08, 2024] First release of AutoCodeRover resolves **19%** of issues in [SWE-bench lite](https://www.swebench.com/lite.html) (pass@1), improving over the current state-of-the-art efficacy of AI software engineers.
+
 
 AutoCodeRover works in two stages:
 
@@ -78,7 +103,14 @@ Set the `OPENAI_KEY` env var to your [OpenAI key](https://help.openai.com/en/art
 ```
 export OPENAI_KEY=sk-YOUR-OPENAI-API-KEY-HERE
 ```
-(Alternatively, if you want to use Anthropic models instead, set `ANTHROPIC_API_KEY`.)
+
+For Anthropic model, Set the `ANTHROPIC_API_KEY` env var can be found [here](https://docs.anthropic.com/claude/reference/getting-started-with-the-api)
+
+```
+export ANTHROPIC_API_KEY=sk-ant-api...
+```
+
+The same with `GROQ_API_KEY`
 
 Build and start the docker image:
 
@@ -258,6 +290,18 @@ The current list of supported models:
 |                | Claude 3 Haiku         | --model claude-3-haiku-20240307 |
 | Meta           | Llama 3 70B            | --model llama3:70b |
 |                | Llama 3 8B             | --model llama3     |
+| AWS            | Claude 3 Opus          | --model bedrock/anthropic.claude-3-opus-20240229-v1:0 |
+|                | Claude 3 Sonnet        | --model bedrock/anthropic.claude-3-sonnet-20240229-v1:0 |
+|                | Claude 3 Haiku         | --model bedrock/anthropic.claude-3-haiku-20240307-v1:0 |
+| Groq           | Llama 3 8B             | --model groq/llama3-8b-8192 |
+|                | Llama 3 70B            | --model groq/llama3-70b-8192 |
+|                | Llama 2 70B            | --model groq/llama2-70b-4096 |
+|                | Mixtral 8x7B           | --model groq/mixtral-8x7b-32768 |
+|                | Gemma 7B               | --model groq/gemma-7b-it |
+
+
+> [!NOTE]
+> Using the Groq models on a free plan can cause the context limit to be exceeded, even on simple issues.
 
 > [!NOTE]
 > Some notes on running ACR with local models such as llama3:

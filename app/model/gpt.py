@@ -84,8 +84,7 @@ class OpenaiModel(Model):
             return content
 
     def extract_resp_func_calls(
-        self,
-        chat_completion_message: ChatCompletionMessage,
+        self, chat_completion_message: ChatCompletionMessage
     ) -> list[FunctionCallIntent]:
         """
         Given a chat completion message, extract the function calls from it.
@@ -205,6 +204,14 @@ class OpenaiModel(Model):
             if e.code == "context_length_exceeded":
                 log_and_print("Context length exceeded")
             raise e
+
+
+class Gpt4o_20240513(OpenaiModel):
+    def __init__(self):
+        super().__init__(
+            "gpt-4o-2024-05-13", 0.000005, 0.000015, parallel_tool_call=True
+        )
+        self.note = "Multimodal model. Up to Oct 2023."
 
 
 class Gpt4_Turbo20240409(OpenaiModel):
